@@ -1,0 +1,27 @@
+name: Check Upstream Updates
+
+on:
+  schedule:
+    - cron: '0 6 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/flathub-infra/flatpak-github-actions:freedesktop-26.08
+      options: --privileged
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Check for new upstream release
+        uses: flatpak/flatpak-github-actions/flatpak-external-data-checker@v6
+        with:
+          manifest-path: live.salinha.Salinha.yaml
+          github-token: ${{ secrets.GITHUB_TOKEN }}
