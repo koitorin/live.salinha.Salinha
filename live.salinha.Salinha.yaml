@@ -54,6 +54,7 @@ modules:
       - type: extra-data
         filename: salinha_amd64.deb
         url: https://github.com/fystec/salinha-app/releases/download/v1.0.46/salinha_amd64.deb
+        size: 102610116
         sha256: c90074b7a3745ff5aa172f3b1071167491f6d803861567e16f21d167a458b7bd
         x-checker-data:
           type: json
