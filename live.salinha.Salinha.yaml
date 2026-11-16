@@ -1,0 +1,67 @@
+id: live.salinha.Salinha
+base: org.electronjs.Electron2.BaseApp
+base-version: '26.08'
+runtime: org.freedesktop.Platform
+runtime-version: '26.08'
+sdk: org.freedesktop.Sdk
+command: live.salinha.Salinha
+separate-locales: false
+tags:
+  - proprietary
+
+finish-args:
+  - --share=ipc
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --socket=pulseaudio
+  - --share=network
+  - --device=all
+  - --filesystem=xdg-run/pipewire-0
+  - --talk-name=org.freedesktop.ScreenSaver
+  - --talk-name=org.kde.StatusNotifierWatcher
+  - --talk-name=com.canonical.AppMenu.Registrar
+  - --talk-name=com.canonical.indicator.application
+  - --talk-name=com.canonical.Unity
+  - --env=XCURSOR_PATH=/run/host/user-share/icons:/run/host/share/icons
+  - --env=ELECTRON_TRASH=gio
+
+modules:
+  - name: salinha
+    buildsystem: simple
+    build-options:
+      no-debuginfo: true
+      strip: false
+    build-commands:
+      - ar x salinha_amd64.deb
+      - tar -xf data.tar.*
+      - mkdir -p /app/salinha
+      - cp -r opt/Salinha/* /app/salinha/
+      - install -Dm755 salinha.sh /app/bin/live.salinha.Salinha
+      - install -Dm644 usr/share/applications/salinha.desktop /app/share/applications/${FLATPAK_ID}.desktop
+      - install -Dm644 usr/share/icons/hicolor/512x512/apps/salinha.png /app/share/icons/hicolor/512x512/apps/${FLATPAK_ID}.png
+      - install -Dm644 live.salinha.Salinha.metainfo.xml /app/share/metainfo/${FLATPAK_ID}.metainfo.xml
+    post-install:
+      # Disable electron-builder auto-updater on read-only /app
+      - rm -f /app/salinha/resources/app-update.yml
+      # Remove unused Windows virtual display / ViGEmBus driver binaries
+      - rm -rf /app/salinha/resources/vendor
+      # Fix desktop filename inside app.asar to avoid window/tray association issues
+      - patch-electron-desktop-filename /app/salinha/resources/app.asar
+      - desktop-file-edit --set-key=Exec --set-value='live.salinha.Salinha %U' /app/share/applications/${FLATPAK_ID}.desktop
+      - desktop-file-edit --set-key=Icon --set-value=live.salinha.Salinha /app/share/applications/${FLATPAK_ID}.desktop
+      - desktop-file-edit --remove-key=Path /app/share/applications/${FLATPAK_ID}.desktop
+    sources:
+      - type: extra-data
+        filename: salinha_amd64.deb
+        path: https://github.com/fystec/salinha-app/releases/download/v1.0.46/salinha_amd64.deb
+        sha256: c90074b7a3745ff5aa172f3b1071167491f6d803861567e16f21d167a458b7bd
+        x-checker-data:
+          type: json
+          url: https://api.github.com/repos/fystec/salinha-app/releases/latest
+          tag-query: .tag_name
+          version-query: .tag_name | sub("^v"; "")
+          url-query: '"https://github.com/fystec/salinha-app/releases/download/v" + $tag + "/salinha_amd64.deb"'
+      - type: file
+        path: salinha.sh
+      - type: file
+        path: live.salinha.Salinha.metainfo.xml
