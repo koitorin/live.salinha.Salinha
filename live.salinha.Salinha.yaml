@@ -61,7 +61,7 @@ modules:
           url: https://api.github.com/repos/fystec/salinha-app/releases/latest
           tag-query: .tag_name
           version-query: .tag_name | sub("^v"; "")
-          url-query: '"https://github.com/fystec/salinha-app/releases/download/v" + $tag + "/salinha_amd64.deb"'
+          url-query: '"https://github.com/fystec/salinha-app/releases/download/" + $tag + "/salinha_amd64.deb"'
       - type: file
         path: apply_extra
       - type: file
