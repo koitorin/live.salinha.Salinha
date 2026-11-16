@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>live.salinha.Salinha</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>LicenseRef-proprietary</project_license>
+  <name>Salinha</name>
+  <summary>Screen sharing with audio, voice chat, and co-op play</summary>
+  <description>
+    <p>
+      Salinha lets you share your screen with system audio up to 1440p/4K and 144 fps in voice rooms with friends.
+    </p>
+  </description>
+  <launchable type="desktop-id">live.salinha.Salinha.desktop</launchable>
+  <url type="homepage">https://salinha.live</url>
+  <content_rating type="oars-1.1" />
+  <releases>
+    <release version="1.0.59" date="2026-11-16" />
+  </releases>
+</component>
