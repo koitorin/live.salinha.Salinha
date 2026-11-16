@@ -63,6 +63,10 @@ modules:
           version-query: .tag_name | sub("^v"; "")
           url-query: '"https://github.com/fystec/salinha-app/releases/download/v" + $tag + "/salinha_amd64.deb"'
       - type: file
+        path: apply_extra
+      - type: file
         path: salinha.sh
+      - type: file
+        path: live.salinha.Salinha.png
       - type: file
         path: live.salinha.Salinha.metainfo.xml

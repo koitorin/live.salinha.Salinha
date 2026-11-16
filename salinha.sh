@@ -10,4 +10,4 @@ if [[ "${XDG_SESSION_TYPE}" == "wayland" ]]; then
   )
 fi
 
-exec zypak-wrapper /app/salinha/salinha "${EXTRA_ARGS[@]}" "$@"
+exec zypak-wrapper /app/extra/salinha/salinha "${EXTRA_ARGS[@]}" "$@"

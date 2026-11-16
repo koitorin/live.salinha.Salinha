@@ -1,0 +1,16 @@
+#!/bin/bash
+set -e
+
+ar x salinha_amd64.deb
+tar -xf data.tar.*
+
+mkdir -p salinha
+cp -r opt/Salinha/* salinha/
+
+# Clean up .deb, extracted archive trees, auto-updater, and unused Windows drivers
+rm -rf salinha_amd64.deb data.tar.* control.tar.* debian-binary opt usr
+rm -f salinha/resources/app-update.yml
+rm -rf salinha/resources/vendor
+
+# Patch desktop filename inside app.asar so Wayland/X11 icons and tray associate properly
+patch-electron-desktop-filename salinha/resources/app.asar
