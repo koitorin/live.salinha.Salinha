@@ -27,7 +27,7 @@ jobs:
         with:
           bundle: live.salinha.Salinha-x86-64.flatpak
           manifest-path: live.salinha.Salinha.yaml
-          runtime-repo: https://flathub.org/repo/flathub.flatpakrepo
+          repository-url: https://flathub.org/repo/flathub.flatpakrepo
 
       - name: Upload Flatpak artifact
         uses: actions/upload-artifact@v4
