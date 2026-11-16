@@ -51,10 +51,9 @@ modules:
       - desktop-file-edit --set-key=Icon --set-value=live.salinha.Salinha /app/share/applications/${FLATPAK_ID}.desktop
       - desktop-file-edit --remove-key=Path /app/share/applications/${FLATPAK_ID}.desktop
     sources:
-      - type: extra-data
-        filename: salinha_amd64.deb
+      - type: file
+        dest-filename: salinha_amd64.deb
         url: https://github.com/fystec/salinha-app/releases/download/v1.0.46/salinha_amd64.deb
-        size: 102610116
         sha256: c90074b7a3745ff5aa172f3b1071167491f6d803861567e16f21d167a458b7bd
         x-checker-data:
           type: json
@@ -62,8 +61,6 @@ modules:
           tag-query: .tag_name
           version-query: .tag_name | sub("^v"; "")
           url-query: '"https://github.com/fystec/salinha-app/releases/download/" + $tag + "/salinha_amd64.deb"'
-      - type: file
-        path: apply_extra
       - type: file
         path: salinha.sh
       - type: file
