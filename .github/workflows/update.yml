@@ -1,24 +1,33 @@
-name: Check Upstream Updates
+name: Check for updates
 
 on:
   schedule:
-    - cron: '0 6 * * *'
+    - cron: '0 6 * * *' # Runs daily at 06:00 UTC
   workflow_dispatch:
 
-permissions:
-  contents: write
-  pull-requests: write
-
 jobs:
-  update:
+  flatpak-external-data-checker:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+
+    strategy:
+      matrix:
+        branch: [ main ]
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Check for new upstream release
-        uses: flathub-infra/flatpak-external-data-checker@main
+      - uses: actions/checkout@v4
         with:
-          manifest-path: live.salinha.Salinha.yaml
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          ref: ${{ matrix.branch }}
+          persist-credentials: false
+
+      - uses: docker://ghcr.io/flathub-infra/flatpak-external-data-checker:latest
+        env:
+          GIT_AUTHOR_NAME: Flatpak External Data Checker
+          GIT_COMMITTER_NAME: Flatpak External Data Checker
+          GIT_AUTHOR_EMAIL: 41898282+github-actions[bot]@users.noreply.github.com
+          GIT_COMMITTER_EMAIL: 41898282+github-actions[bot]@users.noreply.github.com
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          args: --update --never-fork live.salinha.Salinha.yaml
