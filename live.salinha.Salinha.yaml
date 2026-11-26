@@ -38,7 +38,8 @@ modules:
       - cp -r opt/Salinha/* /app/salinha/
       - install -Dm755 salinha.sh /app/bin/live.salinha.Salinha
       - install -Dm644 usr/share/applications/salinha.desktop /app/share/applications/${FLATPAK_ID}.desktop
-      - install -Dm644 usr/share/icons/hicolor/512x512/apps/salinha.png /app/share/icons/hicolor/512x512/apps/${FLATPAK_ID}.png
+      - install -Dm644 live.salinha.Salinha.png /app/share/icons/hicolor/512x512/apps/${FLATPAK_ID}.png
+      - install -Dm644 live.salinha.Salinha.png /app/share/icons/hicolor/512x512/apps/salinha.png
       - install -Dm644 live.salinha.Salinha.metainfo.xml /app/share/metainfo/${FLATPAK_ID}.metainfo.xml
     post-install:
       # Disable electron-builder auto-updater on read-only /app
