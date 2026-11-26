@@ -12,14 +12,13 @@ permissions:
 jobs:
   update:
     runs-on: ubuntu-latest
-    container:
-      image: ghcr.io/flathub-infra/flatpak-external-data-checker:latest
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Check for new upstream release
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: flatpak-external-data-checker --update live.salinha.Salinha.yaml
+        uses: flathub/flatpak-external-data-checker@main
+        with:
+          manifest-path: live.salinha.Salinha.yaml
+          github-token: ${{ secrets.GITHUB_TOKEN }}
